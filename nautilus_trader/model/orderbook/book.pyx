@@ -12,7 +12,7 @@
 #  See the License for the specific language governing permissions and
 #  limitations under the License.
 # -------------------------------------------------------------------------------------------------
-
+import pickle
 from operator import itemgetter
 
 import pandas as pd
@@ -110,6 +110,30 @@ cdef class OrderBook(Data):
             f"count: {self.count}\n"
             f"{self.pprint()}"
         )
+
+    def __getstate__(self):
+        orders = pickle.dumps([order for level in self.bids() + self.asks() for order in level.orders()])
+        return (
+            self.instrument_id.value,
+            self.book_type.value,
+            orders
+        )
+
+    def __setstate__(self, state):
+        print(state)
+        cdef InstrumentId instrument_id = InstrumentId.from_str_c(state[0])
+        cdef book_type = state[1]
+        cdef BookOrder_t book_order
+        cdef list orders = pickle.loads(state[2])
+
+        self._mem = orderbook_new(
+            instrument_id._mem,
+            book_type
+        )
+
+        print(orders)  # looks fine
+        for book_order in orders:
+            self.add(book_order, 0, 0)
 
     @property
     def instrument_id(self) -> InstrumentId:
