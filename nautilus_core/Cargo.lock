@@ -2006,6 +2006,7 @@ dependencies = [
  "nautilus-core",
  "pyo3",
  "pyo3-asyncio",
+ "rstest",
  "serde_json",
  "tokio",
  "tokio-tungstenite",

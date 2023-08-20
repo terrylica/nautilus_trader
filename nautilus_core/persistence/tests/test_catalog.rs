@@ -12,7 +12,7 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 // -------------------------------------------------------------------------------------------------
-
+use rstest::rstest;
 use nautilus_core::cvec::CVec;
 use nautilus_model::data::{delta::OrderBookDelta, quote::QuoteTick, trade::TradeTick, Data};
 use nautilus_persistence::{
@@ -82,7 +82,7 @@ async fn test_order_book_delta() {
     assert!(is_ascending_by_init(&ticks));
 }
 
-#[test]
+#[rstest]
 fn test_order_book_delta_py() {
     pyo3::prepare_freethreaded_python();
 

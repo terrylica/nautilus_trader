@@ -297,6 +297,9 @@ impl OrderBookDelta {
 
 #[cfg(test)]
 mod tests {
+    use rstest::rstest;
+    use std::str::FromStr;
+
     use super::*;
     use crate::{
         enums::OrderSide,
@@ -327,7 +330,7 @@ mod tests {
         )
     }
 
-    #[test]
+    #[rstest]
     fn test_new() {
         let instrument_id = InstrumentId::from("AAPL.NASDAQ");
         let action = BookAction::Add;
@@ -364,7 +367,7 @@ mod tests {
         assert_eq!(delta.ts_init, ts_init);
     }
 
-    #[test]
+    #[rstest]
     fn test_display() {
         let delta = create_stub_delta();
         assert_eq!(
@@ -373,7 +376,7 @@ mod tests {
         );
     }
 
-    #[test]
+    #[rstest]
     fn test_as_dict() {
         pyo3::prepare_freethreaded_python();
 
@@ -386,7 +389,7 @@ mod tests {
         });
     }
 
-    #[test]
+    #[rstest]
     fn test_from_dict() {
         pyo3::prepare_freethreaded_python();
 
@@ -399,7 +402,7 @@ mod tests {
         });
     }
 
-    #[test]
+    #[rstest]
     fn test_from_pyobject() {
         pyo3::prepare_freethreaded_python();
         let delta = create_stub_delta();
@@ -411,7 +414,7 @@ mod tests {
         });
     }
 
-    #[test]
+    #[rstest]
     fn test_json_serialization() {
         let delta = create_stub_delta();
         let serialized = delta.as_json_bytes().unwrap();
@@ -419,7 +422,7 @@ mod tests {
         assert_eq!(deserialized, delta);
     }
 
-    #[test]
+    #[rstest]
     fn test_msgpack_serialization() {
         let delta = create_stub_delta();
         let serialized = delta.as_msgpack_bytes().unwrap();

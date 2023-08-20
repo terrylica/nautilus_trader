@@ -106,13 +106,14 @@ pub extern "C" fn time_event_accumulator_drain(accumulator: &mut TimeEventAccumu
 ////////////////////////////////////////////////////////////////////////////////
 #[cfg(test)]
 mod tests {
+    use rstest::*;
     use nautilus_common::timer::TimeEvent;
     use nautilus_core::uuid::UUID4;
     use pyo3::{types::PyList, AsPyPointer, Py, Python};
 
     use super::*;
 
-    #[test]
+    #[rstest]
     fn test_accumulator_drain_sorted() {
         pyo3::prepare_freethreaded_python();
 

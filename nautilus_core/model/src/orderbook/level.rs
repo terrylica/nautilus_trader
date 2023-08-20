@@ -174,6 +174,7 @@ impl Ord for Level {
 ////////////////////////////////////////////////////////////////////////////////
 #[cfg(test)]
 mod tests {
+    use rstest::rstest;
     use crate::{
         data::order::BookOrder,
         enums::OrderSide,
@@ -181,7 +182,7 @@ mod tests {
         types::{price::Price, quantity::Quantity},
     };
 
-    #[test]
+    #[rstest]
     fn test_comparisons_bid_side() {
         let level0 = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let level1 = Level::new(BookPrice::new(Price::from("1.01"), OrderSide::Buy));
@@ -189,7 +190,7 @@ mod tests {
         assert!(level0 > level1);
     }
 
-    #[test]
+    #[rstest]
     fn test_comparisons_ask_side() {
         let level0 = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Sell));
         let level1 = Level::new(BookPrice::new(Price::from("1.01"), OrderSide::Sell));
@@ -197,7 +198,7 @@ mod tests {
         assert!(level0 < level1);
     }
 
-    #[test]
+    #[rstest]
     fn test_add_one_order() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order = BookOrder::new(OrderSide::Buy, Price::from("1.00"), Quantity::from(10), 0);
@@ -208,7 +209,7 @@ mod tests {
         assert_eq!(level.volume(), 10.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_add_multiple_orders() {
         let mut level = Level::new(BookPrice::new(Price::from("2.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("2.00"), Quantity::from(10), 0);
@@ -221,7 +222,7 @@ mod tests {
         assert_eq!(level.exposure(), 60.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_update_order() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("1.00"), Quantity::from(10), 0);
@@ -234,7 +235,7 @@ mod tests {
         assert_eq!(level.exposure(), 20.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_update_order_with_zero_size() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("1.00"), Quantity::from(10), 0);
@@ -247,7 +248,7 @@ mod tests {
         assert_eq!(level.exposure(), 0.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_delete_order() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order1_id = 0;
@@ -274,7 +275,7 @@ mod tests {
         assert_eq!(level.exposure(), 20.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_remove_order() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order1_id = 0;
@@ -301,7 +302,7 @@ mod tests {
         assert_eq!(level.exposure(), 10.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_add_bulk_orders() {
         let mut level = Level::new(BookPrice::new(Price::from("2.00"), OrderSide::Buy));
         let order1_id = 0;
@@ -326,14 +327,14 @@ mod tests {
         assert_eq!(level.exposure(), 60.0);
     }
 
-    #[test]
+    #[rstest]
     #[should_panic(expected = "Invalid book operation: order ID 1 not found")]
     fn test_remove_nonexistent_order() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         level.remove(1);
     }
 
-    #[test]
+    #[rstest]
     fn test_volume() {
         let mut level = Level::new(BookPrice::new(Price::from("1.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("1.00"), Quantity::from(10), 0);
@@ -344,7 +345,7 @@ mod tests {
         assert_eq!(level.volume(), 25.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_volume_raw() {
         let mut level = Level::new(BookPrice::new(Price::from("2.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("2.00"), Quantity::from(10), 0);
@@ -355,7 +356,7 @@ mod tests {
         assert_eq!(level.volume_raw(), 30_000_000_000);
     }
 
-    #[test]
+    #[rstest]
     fn test_exposure() {
         let mut level = Level::new(BookPrice::new(Price::from("2.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("2.00"), Quantity::from(10), 0);
@@ -366,7 +367,7 @@ mod tests {
         assert_eq!(level.exposure(), 60.0);
     }
 
-    #[test]
+    #[rstest]
     fn test_exposure_raw() {
         let mut level = Level::new(BookPrice::new(Price::from("2.00"), OrderSide::Buy));
         let order1 = BookOrder::new(OrderSide::Buy, Price::from("2.00"), Quantity::from(10), 0);
