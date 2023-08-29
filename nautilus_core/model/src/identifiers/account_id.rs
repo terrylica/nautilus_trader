@@ -90,13 +90,32 @@ pub extern "C" fn account_id_hash(id: &AccountId) -> u64 {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// Stubs
+////////////////////////////////////////////////////////////////////////////////
+#[cfg(test)]
+pub mod stubs{
+    use rstest::fixture;
+    use super::*;
+
+    #[fixture]
+    pub fn account_id() -> AccountId {
+        AccountId::from("SIM-001")
+    }
+
+    #[fixture]
+    pub fn account_ib()-> AccountId {
+        AccountId::from("IB-1234567890")
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // Tests
 ////////////////////////////////////////////////////////////////////////////////
 #[cfg(test)]
 mod tests {
     use rstest::rstest;
     use std::ffi::CString;
-
+    use super::stubs::*;
     use super::*;
 
     #[rstest]
@@ -122,9 +141,8 @@ mod tests {
     }
 
     #[rstest]
-    fn test_string_reprs() {
-        let id = AccountId::from("IB-1234567890");
-        assert_eq!(id.to_string(), "IB-1234567890");
+    fn test_string_reprs(account_ib: AccountId) {
+        assert_eq!(account_ib.to_string(), "IB-1234567890");
     }
 
     #[rstest]

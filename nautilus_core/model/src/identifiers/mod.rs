@@ -86,3 +86,21 @@ pub extern "C" fn interned_string_stats() {
 
     ustr::string_cache_iter().for_each(|s| println!("{}", s));
 }
+
+#[cfg(test)]
+pub mod stubs{
+    use crate::identifiers::account_id::stubs::*;
+    use crate::identifiers::client_id::stubs::*;
+    use crate::identifiers::client_order_id::stubs::*;
+    use crate::identifiers::component_id::stubs::*;
+    use crate::identifiers::exec_algorithm_id::stubs::*;
+    use crate::identifiers::instrument_id::stubs::*;
+    use crate::identifiers::order_list_id::stubs::*;
+    use crate::identifiers::position_id::stubs::*;
+    use crate::identifiers::strategy_id::stubs::*;
+    use crate::identifiers::symbol::stubs::*;
+    use crate::identifiers::trade_id::stubs::*;
+    use crate::identifiers::trader_id::stubs::*;
+    use crate::identifiers::venue::stubs::*;
+    use crate::identifiers::venue_order_id::stubs::*;
+}
